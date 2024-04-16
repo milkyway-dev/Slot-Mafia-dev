@@ -47,9 +47,26 @@ public class ManageLineButtons : MonoBehaviour, IPointerEnterHandler,IPointerExi
 	}
 	public void OnPointerDown(PointerEventData eventData)
 	{
+		if (Application.platform == RuntimePlatform.WebGLPlayer && Application.isMobilePlatform)
+		{
+			this.gameObject.GetComponent<Button>().Select();
+			Debug.Log("run on pointer down");
+			payManager.GeneratePayoutLinesBackend(num - 1);
+		}
+
 	}
 	public void OnPointerUp(PointerEventData eventData)
 	{
+		if (Application.platform == RuntimePlatform.WebGLPlayer && Application.isMobilePlatform)
+		{
+			Debug.Log("run on pointer up");
+			payManager.ResetLines();
+			DOVirtual.DelayedCall(0.1f, () =>
+			{
+				this.gameObject.GetComponent<Button>().spriteState = default;
+				EventSystem.current.SetSelectedGameObject(null);
+			});
+		}
 	}
 
 #else
