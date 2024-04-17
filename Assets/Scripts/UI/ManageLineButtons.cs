@@ -13,37 +13,39 @@ public class ManageLineButtons : MonoBehaviour, IPointerEnterHandler,IPointerExi
 	private PayoutCalculation payManager;
 	[SerializeField]
 	private GameObject _ConnectedLine;
-	[SerializeField]
-	internal bool isEnabled = false;
+	
+	private bool isEnabled = false;
 	[SerializeField]
 	private int num;
+	private Button btn;
 
-#if UNITY_EDITOR
-	public void OnPointerEnter(PointerEventData eventData)
+    private void Start()
+    {
+		btn = this.GetComponent<Button>();
+
+	}
+
+    public void OnPointerEnter(PointerEventData eventData)
 	{
-		if (num < payManager.currrentLineIndex+1)
+		print(payManager.currrentLineIndex);
+		if (num <= payManager.currrentLineIndex)
 		{
 			isEnabled = true;
+
+			btn.interactable = true;
 		}
 		else {
 			isEnabled = false;
-			//this.GetComponent<Button>().interactable = false;
+			btn.interactable = false;
 
-		}
+        }
 		if (isEnabled)
-		{
-			payManager.ResetLines();
 			payManager.GeneratePayoutLinesBackend(num-1);
-			//if (_ConnectedLine) _ConnectedLine.SetActive(true);
-		}
 	}
 	public void OnPointerExit(PointerEventData eventData)
 	{
 		if (isEnabled)
-		{
 			payManager.ResetLines();
-			//if (_ConnectedLine) _ConnectedLine.SetActive(false);
-		}
 	}
 	public void OnPointerDown(PointerEventData eventData)
 	{
@@ -69,48 +71,5 @@ public class ManageLineButtons : MonoBehaviour, IPointerEnterHandler,IPointerExi
 		}
 	}
 
-#else
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		if (Application.platform == RuntimePlatform.WebGLPlayer && !Application.isMobilePlatform)
-        {
-            if (isEnabled)
-			{
-				payManager.ResetLines();
-				if (_ConnectedLine) _ConnectedLine.SetActive(true);
-			}
-        }
-    }
-	public void OnPointerExit(PointerEventData eventData)
-	{
-        if (Application.platform == RuntimePlatform.WebGLPlayer && !Application.isMobilePlatform)
-        {
-            if (isEnabled)
-			{
-			if (_ConnectedLine) _ConnectedLine.SetActive(false);
-			}
-		}
-	}
-	public void OnPointerDown(PointerEventData eventData)
-	{
-		if (Application.platform == RuntimePlatform.WebGLPlayer && Application.isMobilePlatform && isEnabled)
-		{
-			payManager.ResetLines();
-			this.gameObject.GetComponent<Button>().Select();
-			if (_ConnectedLine) _ConnectedLine.SetActive(true);
-		}
-	}
-	public void OnPointerUp(PointerEventData eventData)
-	{
-		if (Application.platform == RuntimePlatform.WebGLPlayer && Application.isMobilePlatform && isEnabled)
-		{
-			if (_ConnectedLine) _ConnectedLine.SetActive(false);
-			DOVirtual.DelayedCall(0.1f, () =>
-			{
-				this.gameObject.GetComponent<Button>().spriteState = default;
-				EventSystem.current.SetSelectedGameObject(null);
-			 });
-		}
-	}
-#endif
+
 }

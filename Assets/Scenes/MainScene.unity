@@ -258,7 +258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 32599600}
-  isEnabled: 1
+  isEnabled: 0
   num: 8
 --- !u!1 &21776334
 GameObject:
@@ -2274,7 +2274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 802897179}
-  isEnabled: 1
+  isEnabled: 0
   num: 5
 --- !u!1 &264286577
 GameObject:
@@ -4507,7 +4507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 1933691939}
-  isEnabled: 1
+  isEnabled: 0
   num: 3
 --- !u!114 &610561182
 MonoBehaviour:
@@ -4954,7 +4954,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 1606668166}
-  isEnabled: 1
+  isEnabled: 0
   num: 1
 --- !u!1 &676456499
 GameObject:
@@ -7396,7 +7396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 1598107887}
-  isEnabled: 1
+  isEnabled: 0
   num: 7
 --- !u!114 &996894948
 MonoBehaviour:
@@ -8137,7 +8137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 1840685804}
-  isEnabled: 1
+  isEnabled: 0
   num: 9
 --- !u!1 &1072518673
 GameObject:
@@ -8613,7 +8613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 634476094}
-  isEnabled: 1
+  isEnabled: 0
   num: 4
 --- !u!114 &1151875218
 MonoBehaviour:
@@ -10316,7 +10316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 802897179}
-  isEnabled: 1
+  isEnabled: 0
   num: 5
 --- !u!114 &1356501767
 MonoBehaviour:
@@ -12894,7 +12894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 1998737617}
-  isEnabled: 1
+  isEnabled: 0
   num: 6
 --- !u!114 &1603303431
 MonoBehaviour:
@@ -13188,7 +13188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 1998737617}
-  isEnabled: 1
+  isEnabled: 0
   num: 6
 --- !u!1 &1624035301
 GameObject:
@@ -14494,7 +14494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 1598107887}
-  isEnabled: 1
+  isEnabled: 0
   num: 7
 --- !u!1 &1813791459
 GameObject:
@@ -14631,7 +14631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 1933691939}
-  isEnabled: 1
+  isEnabled: 0
   num: 3
 --- !u!1 &1814462059
 GameObject:
@@ -16082,7 +16082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 32599600}
-  isEnabled: 1
+  isEnabled: 0
   num: 8
 --- !u!114 &1931276106
 MonoBehaviour:
@@ -16219,7 +16219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 1840685804}
-  isEnabled: 1
+  isEnabled: 0
   num: 9
 --- !u!114 &1932496202
 MonoBehaviour:
@@ -16513,7 +16513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 634476094}
-  isEnabled: 1
+  isEnabled: 0
   num: 4
 --- !u!1 &1972711820
 GameObject:
@@ -17115,7 +17115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 377531970}
-  isEnabled: 1
+  isEnabled: 0
   num: 2
 --- !u!114 &2020106318
 MonoBehaviour:
@@ -18174,7 +18174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 377531970}
-  isEnabled: 1
+  isEnabled: 0
   num: 2
 --- !u!1 &2083430129
 GameObject:
@@ -18229,7 +18229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   payManager: {fileID: 963807277}
   _ConnectedLine: {fileID: 1606668166}
-  isEnabled: 1
+  isEnabled: 0
   num: 1
 --- !u!114 &2083430132
 MonoBehaviour:
