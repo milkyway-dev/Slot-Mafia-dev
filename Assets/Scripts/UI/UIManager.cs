@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject[] paytableList;
     [SerializeField]
-    private int CurrentIndex=0;
+    private int CurrentIndex = 0;
     [SerializeField]
     private Image Info_Image;
 
@@ -45,6 +45,8 @@ public class UIManager : MonoBehaviour
     private GameObject CardGame_Panel;
     [SerializeField]
     private GameObject CoffinGame_Panel;
+
+    [SerializeField] private AudioController audioController;
 
     [Header("Light Animation")]
     [SerializeField] private GameObject lightOn;
@@ -74,32 +76,26 @@ public class UIManager : MonoBehaviour
 
     private void OpenBonusGame(bool type)
     {
-        if (type)
-        {
-            if (CardGame_Panel) CardGame_Panel.SetActive(true);
-            if (CoffinGame_Panel) CoffinGame_Panel.SetActive(false);
-        }
-        else
-        {
-            if (CardGame_Panel) CardGame_Panel.SetActive(false);
-            if (CoffinGame_Panel) CoffinGame_Panel.SetActive(true);
-        }
+
         if (BonusPanel) BonusPanel.SetActive(true);
     }
 
     private void OpenPopup(GameObject Popup)
     {
+        if (audioController) audioController.PlayButtonAudio();
         if (Popup) Popup.SetActive(true);
         if (MainPopup_Object) MainPopup_Object.SetActive(true);
     }
 
     private void ClosePopup(GameObject Popup)
     {
+        if (audioController) audioController.PlayButtonAudio();
         if (Popup) Popup.SetActive(false);
         if (MainPopup_Object) MainPopup_Object.SetActive(false);
     }
 
     private void slide(int i) {
+        if (audioController) audioController.PlayButtonAudio();
 
         if (CurrentIndex < paytableList.Length-1 && i>0) {
         paytableList[CurrentIndex].SetActive(false);

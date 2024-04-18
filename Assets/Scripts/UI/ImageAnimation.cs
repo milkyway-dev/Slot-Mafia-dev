@@ -132,17 +132,17 @@ public class ImageAnimation : MonoBehaviour
 
 	public void StopAnimation()
 	{
-		if (currentAnimationState != 0)
-		{
-			if (OriginalSprite != null)
-				rendererDelegate.sprite = OriginalSprite;
-			else
-				rendererDelegate.sprite = textureArray[0];
+        if (currentAnimationState != 0)
+        {
+            if (OriginalSprite != null)
+                rendererDelegate.sprite = OriginalSprite;
+            else
+                rendererDelegate.sprite = textureArray[0];
 			CancelInvoke("AnimationProcess");
 			currentAnimationState = ImageState.NONE;
 			isplaying = false;
 		}
-	}
+}
 
 	public void RevertToInitialState()
 	{
