@@ -73,14 +73,14 @@ MonoBehaviour:
   _disableMobileWarning: 1
   _targetPath: /Users/gamedev1/Builds/mafia_build
   _s11: "\n    &&& title2019start &&&<title>%UNITY_WEB_NAME%</title>&&& title2019end
-    &&&\n    &&& title2020start &&&<title>Halloween</title>&&& title2020end &&&\n   
+    &&&\n    &&& title2020start &&&<title>Mafia</title>&&& title2020end &&&\n   
     &&& UnityLoader1 &&& <script src=\"%UNITY_WEBGL_LOADER_URL%\"></script> &&& UnityLoader2
     &&&\n    "
   _s21: "\n            applicationInstance = UnityLoader.instantiate(\"gameContainer\",
     \"%UNITY_WEBGL_BUILD_URL%\", {onProgress: UnityProgress});\n            "
   _s31: "\n    var buildUrl = \"Build\";\n    var loaderUrl = buildUrl + \"/mafia_build.loader.js\";\n   
-    var config = {\n        dataUrl: buildUrl + \"/mafia_build.data.br\",\n       
-    frameworkUrl: buildUrl + \"/mafia_build.framework.js.br\",\n        codeUrl:
-    buildUrl + \"/mafia_build.wasm.br\",\n        streamingAssetsUrl: \"StreamingAssets\",\n       
-    companyName: \"DefaultCompany\",\n        productName: \"Halloween\",\n       
-    productVersion: \"1.0\",\n    };\n"
+    var config = {\n        dataUrl: buildUrl + \"/mafia_build.data.unityweb\",\n       
+    frameworkUrl: buildUrl + \"/mafia_build.framework.js.unityweb\",\n        codeUrl:
+    buildUrl + \"/mafia_build.wasm.unityweb\",\n        streamingAssetsUrl: \"StreamingAssets\",\n       
+    companyName: \"DefaultCompany\",\n        productName: \"Mafia\",\n        productVersion:
+    \"1.0\",\n    };\n"
