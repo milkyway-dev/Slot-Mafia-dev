@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BonusGameSuitCase : MonoBehaviour
 {
@@ -9,8 +10,8 @@ public class BonusGameSuitCase : MonoBehaviour
     [SerializeField] private Sprite empty_case;
     [SerializeField] private Sprite filled_case_cash;
     [SerializeField] private Sprite filled_case_gold;
-    [SerializeField] private Sprite text;
-    [SerializeField] private Image text_image;
+    [SerializeField] private Color32 text_color;
+    [SerializeField] private TMP_Text text;
     [SerializeField] private Image case_image_bttom;
     [SerializeField] private ImageAnimation imageAnimation;
 
@@ -49,8 +50,11 @@ public class BonusGameSuitCase : MonoBehaviour
 
         yield return new WaitUntil(() => !imageAnimation.isplaying);
         yield return new WaitForSeconds(0.3f);
-        text_image.sprite = text;
-        text_image.gameObject.SetActive(true);
+        //text_image.sprite = text;
+
+        text.gameObject.SetActive(true);
+        text.outlineColor = text_color;
+        //text.color = text_color;
         isOpen = true;
     }
 
