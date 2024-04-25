@@ -27,19 +27,20 @@ public class ManageLineButtons : MonoBehaviour, IPointerEnterHandler,IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
 	{
-		print(payManager.currrentLineIndex);
-		if (num <= payManager.currrentLineIndex)
-		{
-			isEnabled = true;
+        print(payManager.currrentLineIndex);
+        if (num <= payManager.currrentLineIndex)
+        {
+            isEnabled = true;
 
-			btn.interactable = true;
-		}
-		else {
-			isEnabled = false;
-			btn.interactable = false;
+            //btn.interactable = true;
+        }
+        else
+        {
+            isEnabled = false;
+            //btn.interactable = false;
 
         }
-		if (isEnabled)
+        if (isEnabled)
 			payManager.GeneratePayoutLinesBackend(num-1);
 	}
 	public void OnPointerExit(PointerEventData eventData)
