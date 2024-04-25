@@ -38,14 +38,14 @@ public class SocketIOManager : MonoBehaviour
             try
             {
                 InitialSlotData initialslots = JsonUtility.FromJson<InitialSlotData>(jsonObject);
-                PopulateSlotSocket(initialslots.PopulateSlot, initialslots.LineIDs);
-            }
-            catch (Exception e)
-            {
-                Debug.Log("Error while parsing Json " + e.Message);
-            }
-
+            PopulateSlotSocket(initialslots.PopulateSlot, initialslots.LineIDs);
         }
+            catch (Exception e)
+        {
+            Debug.Log("Error while parsing Json " + e.Message);
+        }
+
+    }
         else
         {
             try
