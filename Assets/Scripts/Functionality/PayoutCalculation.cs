@@ -48,6 +48,17 @@ public class PayoutCalculation : MonoBehaviour
             return;
         }
 
+
+
+        if (isStatic)
+        {
+            TempObj = Lines_Object[lineIndex];
+        }
+        CurrentIndex_text.text = currrentLineIndex.ToString();
+    }
+
+    internal void SetButtonActive() {
+
         for (int i = 0; i < currrentLineIndex; i++)
         {
             Lines_Object[i].SetActive(true);
@@ -62,12 +73,6 @@ public class PayoutCalculation : MonoBehaviour
             left_buttons[j].interactable = false;
             right_buttons[j].interactable = false;
         }
-
-        if (isStatic)
-        {
-            TempObj = Lines_Object[lineIndex];
-        }
-        CurrentIndex_text.text = currrentLineIndex.ToString();
     }
 
     internal void ResetStaticLine()
