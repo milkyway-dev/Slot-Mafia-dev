@@ -126,14 +126,14 @@ public class SlotBehaviour : MonoBehaviour
 
     [SerializeField]
     private SocketIOManager SocketManager;
-
-    Coroutine AutoSpinRoutine = null;
-    public bool IsAutoSpin = false;
-    public bool IsSpinning=false;
-
     [SerializeField] private AudioController audioController;
 
-    [SerializeField] private Coroutine tweenroutine;
+    Coroutine AutoSpinRoutine = null;
+    Coroutine tweenroutine;
+    bool IsAutoSpin = false;
+    bool IsSpinning=false;
+
+
 
     private void Start()
     {
@@ -192,17 +192,8 @@ public class SlotBehaviour : MonoBehaviour
             IsAutoSpin = false;
             if (AutoSpinStop_Button) AutoSpinStop_Button.gameObject.SetActive(false);
             if (AutoSpin_Button) AutoSpin_Button.gameObject.SetActive(true);
-            if(tweenroutine ==null && AutoSpinRoutine==null)
-            if (AutoSpin_Button) AutoSpin_Button.interactable = true;
             StartCoroutine(StopAutoSpinCoroutine());
         }
-        //if (AutoSpin_Image) AutoSpin_Image.sprite = AutoSpin_Sprite;
-        //if (AutoSpin_Button) AutoSpin_Button.interactable = false;
-
-
-
-
-
 
     }
 
@@ -407,7 +398,7 @@ public class SlotBehaviour : MonoBehaviour
     {
         if (!autoSpin)
         {
-            if (AutoSpin_Image) AutoSpin_Image.sprite = AutoSpin_Sprite;
+            // if (AutoSpin_Image) AutoSpin_Image.sprite = AutoSpin_Sprite;
             if (AutoSpinRoutine != null)
             {
                 StopCoroutine(AutoSpinRoutine);
@@ -424,13 +415,13 @@ public class SlotBehaviour : MonoBehaviour
         {
             StopGameAnimation();
         }
+        PayCalculator.ResetLines();
+        tweenroutine = StartCoroutine(TweenRoutine());
         for (int i = 0; i < Tempimages.Count; i++)
         {
             Tempimages[i].slotImages.Clear();
             Tempimages[i].slotImages.TrimExcess();
         }
-        PayCalculator.ResetLines();
-        tweenroutine = StartCoroutine(TweenRoutine());
     }
 
     private IEnumerator TweenRoutine()
