@@ -27,7 +27,6 @@ public class ManageLineButtons : MonoBehaviour, IPointerEnterHandler,IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
 	{
-        print(payManager.currrentLineIndex);
         if (num <= payManager.currrentLineIndex)
         {
             isEnabled = true;
