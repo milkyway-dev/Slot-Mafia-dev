@@ -91,7 +91,6 @@ public class SlotBehaviour : MonoBehaviour
     [SerializeField]
     private Button MaxBet_Button;
     [SerializeField] private Button Betone_button;
-    [SerializeField] private Button Double_button;
 
 
     [Header("Static paylines")]
@@ -160,9 +159,6 @@ public class SlotBehaviour : MonoBehaviour
         if (Betone_button) Betone_button.onClick.RemoveAllListeners();
         if (Betone_button) Betone_button.onClick.AddListener(OnBetOne);
 
-        if (Double_button) Double_button.onClick.RemoveAllListeners();
-        if (Double_button) Double_button.onClick.AddListener(OnDouble);
-
         if (AutoSpin_Button) AutoSpin_Button.onClick.RemoveAllListeners();
         if (AutoSpin_Button) AutoSpin_Button.onClick.AddListener(AutoSpin);
 
@@ -221,6 +217,12 @@ public class SlotBehaviour : MonoBehaviour
         }
     }
 
+    internal void CallCloseSocket()
+    {
+        SocketManager.CloseSocket();
+    }
+
+
     private IEnumerator StopAutoSpinCoroutine()
     {
         yield return new WaitUntil(()=>!IsSpinning);
@@ -256,12 +258,6 @@ public class SlotBehaviour : MonoBehaviour
         }
 
         if (TotalBet_text) TotalBet_text.text = SocketManager.initialData.Bets[BetCounter].ToString();
-    }
-
-    void OnDouble()
-    {
-
-        if (audioController) audioController.PlayButtonAudio();
     }
 
     private void ToggleLine()
@@ -546,7 +542,6 @@ public class SlotBehaviour : MonoBehaviour
         if (Lines_Button) Lines_Button.interactable = toggle;
         if (Betone_button) Betone_button.interactable = toggle;
         if (MaxBet_Button) MaxBet_Button.interactable = toggle;
-        if (Double_button) Double_button.interactable = toggle;
         if (AutoSpin_Button) AutoSpin_Button.interactable = toggle;
 
     }
