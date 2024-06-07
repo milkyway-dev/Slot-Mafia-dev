@@ -38,12 +38,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TMP_Text[] SymbolsText;
 
-    [Header("Card Bonus Game")]
-    [SerializeField]
-    private Button DoubleBet_Button;
-    [SerializeField]
-    private GameObject BonusPanel;
-
     [Header("Win Popup")]
     [SerializeField]
     private GameObject WinPopup_Object;
@@ -79,10 +73,6 @@ public class UIManager : MonoBehaviour
 
         if(Right_Arrow) Right_Arrow.onClick.RemoveAllListeners();
         if(Right_Arrow) Right_Arrow.onClick.AddListener(delegate { slide(1); });
-      
-
-        if (DoubleBet_Button) DoubleBet_Button.onClick.RemoveAllListeners();
-        if (DoubleBet_Button) DoubleBet_Button.onClick.AddListener(delegate { OpenBonusGame(true); });
 
         if (GameExit_Button) GameExit_Button.onClick.RemoveAllListeners();
         if (GameExit_Button) GameExit_Button.onClick.AddListener(CallOnExitFunction);
@@ -105,11 +95,6 @@ public class UIManager : MonoBehaviour
             if (MainPopup_Object) MainPopup_Object.SetActive(false);
             slotManager.CheckBonusGame();
         });
-    }
-
-    private void OpenBonusGame(bool type)
-    {
-        if (BonusPanel) BonusPanel.SetActive(true);
     }
 
     private void OpenPopup(GameObject Popup)
@@ -181,6 +166,7 @@ public class UIManager : MonoBehaviour
 
     private void CallOnExitFunction()
     {
+        slotManager.CallCloseSocket();
         Application.ExternalCall("window.parent.postMessage", "onExit", "*");
     }
 
