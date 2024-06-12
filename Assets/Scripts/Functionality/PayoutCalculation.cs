@@ -28,27 +28,35 @@ public class PayoutCalculation : MonoBehaviour
 
     GameObject TempObj = null;
 
-    [SerializeField] private TMP_Text CurrentIndex_text; 
-
     private void Awake()
     {
         LineCount = Lines_Object.Length;
-        currrentLineIndex = Lines_Object.Length;
-        CurrentIndex_text.text = currrentLineIndex.ToString();
     }
 
-    internal void GeneratePayoutLinesBackend(int lineIndex = -1, bool isStatic = false)
+    internal void GeneratePayoutLinesBackend(int lineIndex = -1, int linecounter = 0, bool isStatic = false)
     {
         ResetLines();
         if (lineIndex >= 0)
         {
             if (Lines_Object[lineIndex]) Lines_Object[lineIndex].SetActive(true);
-            //if (btn) btn.interactable = true;
-            //currrentLineIndex = lineIndex;
             return;
         }
 
-        for (int i = 0; i < currrentLineIndex; i++)
+        if (isStatic)
+        {
+            TempObj = Lines_Object[lineIndex];
+        }
+        for (int i = 0; i < linecounter; i++)
+        {
+            Lines_Object[i].SetActive(true);
+        }
+    }
+
+    internal void SetButtonActive(int LineCounter)
+    {
+        currrentLineIndex = LineCounter;
+
+        for (int i = 0; i < LineCounter; i++)
         {
             Lines_Object[i].SetActive(true);
 
@@ -57,17 +65,11 @@ public class PayoutCalculation : MonoBehaviour
         }
 
 
-        for (int j = currrentLineIndex; j < left_buttons.Length; j++)
+        for (int j = LineCounter; j < left_buttons.Length; j++)
         {
             left_buttons[j].interactable = false;
             right_buttons[j].interactable = false;
         }
-
-        if (isStatic)
-        {
-            TempObj = Lines_Object[lineIndex];
-        }
-        CurrentIndex_text.text = currrentLineIndex.ToString();
     }
 
     internal void ResetStaticLine()
@@ -88,9 +90,5 @@ public class PayoutCalculation : MonoBehaviour
             else
                 Lines_Object[i].SetActive(false);
         }
-
-
     }
-
-
 }

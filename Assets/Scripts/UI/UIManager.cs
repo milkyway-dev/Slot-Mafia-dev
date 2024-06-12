@@ -7,7 +7,7 @@ using System.Linq;
 using TMPro;
 using System;
 using UnityEngine.EventSystems;
-
+using UnityEngine.Networking;
 
 public class UIManager : MonoBehaviour
 {
@@ -35,22 +35,27 @@ public class UIManager : MonoBehaviour
     private int CurrentIndex = 0;
     [SerializeField]
     private Image Info_Image;
+    [SerializeField]
+    private TMP_Text[] SymbolsText;
 
-    [Header("Card Bonus Game")]
+    [Header("Win Popup")]
     [SerializeField]
-    private Button DoubleBet_Button;
+    private GameObject WinPopup_Object;
     [SerializeField]
-    private GameObject BonusPanel;
-    [SerializeField]
-    private GameObject CardGame_Panel;
-    [SerializeField]
-    private GameObject CoffinGame_Panel;
+    private TMP_Text Win_Text;
 
-    [SerializeField] private AudioController audioController;
+    [SerializeField]
+    private AudioController audioController;
 
     [Header("Light Animation")]
     [SerializeField] private GameObject lightOn;
     [SerializeField] private GameObject lightOff;
+
+    [SerializeField]
+    private Button GameExit_Button;
+
+    [SerializeField]
+    private SlotBehaviour slotManager;
 
     private void Start()
     {
@@ -68,16 +73,28 @@ public class UIManager : MonoBehaviour
 
         if(Right_Arrow) Right_Arrow.onClick.RemoveAllListeners();
         if(Right_Arrow) Right_Arrow.onClick.AddListener(delegate { slide(1); });
-      
 
-        if (DoubleBet_Button) DoubleBet_Button.onClick.RemoveAllListeners();
-        if (DoubleBet_Button) DoubleBet_Button.onClick.AddListener(delegate { OpenBonusGame(true); });
+        if (GameExit_Button) GameExit_Button.onClick.RemoveAllListeners();
+        if (GameExit_Button) GameExit_Button.onClick.AddListener(CallOnExitFunction);
     }
 
-    private void OpenBonusGame(bool type)
+    internal void PopulateWin(double amount)
     {
+        int initAmount = 0;
+        if (WinPopup_Object) WinPopup_Object.SetActive(true);
+        if (MainPopup_Object) MainPopup_Object.SetActive(true);
 
-        if (BonusPanel) BonusPanel.SetActive(true);
+        DOTween.To(() => initAmount, (val) => initAmount = val, (int)amount, 5f).OnUpdate(() =>
+        {
+            if (Win_Text) Win_Text.text = initAmount.ToString();
+        });
+
+        DOVirtual.DelayedCall(6f, () =>
+        {
+            if (WinPopup_Object) WinPopup_Object.SetActive(false);
+            if (MainPopup_Object) MainPopup_Object.SetActive(false);
+            slotManager.CheckBonusGame();
+        });
     }
 
     private void OpenPopup(GameObject Popup)
@@ -94,38 +111,79 @@ public class UIManager : MonoBehaviour
         if (MainPopup_Object) MainPopup_Object.SetActive(false);
     }
 
-    private void slide(int i) {
+    private void slide(int i)
+    {
         if (audioController) audioController.PlayButtonAudio();
 
-        if (CurrentIndex < paytableList.Length-1 && i>0) {
-        paytableList[CurrentIndex].SetActive(false);
-        paytableList[CurrentIndex + 1].SetActive(true);
+        if (CurrentIndex < paytableList.Length-1 && i>0)
+        {
+            paytableList[CurrentIndex].SetActive(false);
+            paytableList[CurrentIndex + 1].SetActive(true);
             CurrentIndex ++;
         }
 
-        if (CurrentIndex >= 1 && i<0) {
-        paytableList[CurrentIndex].SetActive(false);
-        paytableList[CurrentIndex - 1].SetActive(true);
+        if (CurrentIndex >= 1 && i<0)
+        {
+            paytableList[CurrentIndex].SetActive(false);
+            paytableList[CurrentIndex - 1].SetActive(true);
             CurrentIndex --;
         }
-
-       
     }
 
-    IEnumerator lightanimation() {
+    internal void InitialiseUIData(string SupportUrl, string AbtImgUrl, string TermsUrl, string PrivacyUrl, Paylines symbolsText)
+    {
+        PopulateSymbolsPayout(symbolsText);
+    }
 
-        while (true) {
+
+    private void PopulateSymbolsPayout(Paylines paylines)
+    {
+        for (int i = 0; i < paylines.symbols.Count; i++)
+        {
+            if (i < SymbolsText.Length)
+            {
+                string text = null;
+                if (paylines.symbols[i].multiplier._5x != 0)
+                {
+                    text += paylines.symbols[i].multiplier._5x;
+                }
+                if (paylines.symbols[i].multiplier._4x != 0)
+                {
+                    text += "\n" + paylines.symbols[i].multiplier._4x;
+                }
+                if (paylines.symbols[i].multiplier._3x != 0)
+                {
+                    text += "\n" + paylines.symbols[i].multiplier._3x;
+                }
+                if (paylines.symbols[i].multiplier._2x != 0)
+                {
+                    text += "\n" + paylines.symbols[i].multiplier._2x;
+                }
+                if (SymbolsText[i]) SymbolsText[i].text = text;
+            }
+        }
+    }
+
+    private void CallOnExitFunction()
+    {
+        slotManager.CallCloseSocket();
+        Application.ExternalCall("window.parent.postMessage", "onExit", "*");
+    }
+
+    private IEnumerator lightanimation()
+    {
+        while (true)
+        {
             if (lightOn.activeSelf)
+            {
                 lightOn.SetActive(false);
+            }
             else
+            {
                 lightOn.SetActive(true);
+            }
 
             yield return new WaitForSeconds(0.1f);
-
         }
-
-
     }
-
-
 }
