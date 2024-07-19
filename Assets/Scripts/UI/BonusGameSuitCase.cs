@@ -48,7 +48,7 @@ public class BonusGameSuitCase : MonoBehaviour
     void PopulateCase()
     {
         int value = _bonusManager.GetValue();
-        if(value == -1)
+        if(value == 0)
         {
             case_image_bttom.sprite = empty_case;
             text.text = "game over";
@@ -56,7 +56,8 @@ public class BonusGameSuitCase : MonoBehaviour
         else
         {
             case_image_bttom.sprite = filled_case_cash;
-            text.text = value.ToString();
+            text.text = (_bonusManager.bet*value).ToString();
+            _bonusManager.totalWin += _bonusManager.bet * value;
         }
     }
 
