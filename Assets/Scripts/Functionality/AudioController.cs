@@ -27,12 +27,14 @@ public class AudioController : MonoBehaviour
         if (!focus)
         {
             bg_adudio.Pause();
+            bg_audioBonus.Pause();
             audioPlayer_wl.Pause();
             audioPlayer_button.Pause();
         }
         else
         {
             if (!bg_adudio.mute) bg_adudio.Play();
+            if (!bg_audioBonus) bg_audioBonus.Play();
             if (!audioPlayer_wl.mute) audioPlayer_wl.Play();
             if (!audioPlayer_button.mute) audioPlayer_button.Play();
 
@@ -131,6 +133,7 @@ public class AudioController : MonoBehaviour
         {
             case "bg":
                 bg_adudio.mute = toggle;
+                bg_audioBonus.mute = toggle;
                 break;
             case "button":
                 audioPlayer_button.mute=toggle;
