@@ -22,15 +22,21 @@ public class BonusController : MonoBehaviour
     private List<int> CaseValues;
 
     int index = 0;
+    internal double bet = 0;
+    internal double totalWin = 0;
 
-    internal void GetSuitCaseList(List<int> values)
+    [SerializeField] private Transform BonusWinPopup;
+    [SerializeField] private TMP_Text BonusWintext;
+
+    internal void GetSuitCaseList(List<int> values, double betperline)
     {
         index = 0;
         CaseValues.Clear();
         CaseValues.TrimExcess();
         CaseValues = values;
-
-        foreach(BonusGameSuitCase cases in BonusCases)
+        bet = betperline;
+        totalWin = 0;
+        foreach (BonusGameSuitCase cases in BonusCases)
         {
             cases.ResetCase();
         }
@@ -55,9 +61,21 @@ public class BonusController : MonoBehaviour
 
     internal void GameOver()
     {
-        slotManager.CheckPopups = false;
-        _audioManager.SwitchBGSound(false);
-        if (Bonus_Object) Bonus_Object.SetActive(false);
+        BonusWinPopup.parent.gameObject.SetActive(true);
+        BonusWinPopup.localScale = Vector3.zero;
+        BonusWintext.text = totalWin.ToString();
+        BonusWinPopup.DOScale(1,1f).SetEase(Ease.OutBounce);
+        DOVirtual.DelayedCall(3f, ()=> {
+
+            slotManager.CheckPopups = false;
+            _audioManager.SwitchBGSound(false);
+
+            if (Bonus_Object) Bonus_Object.SetActive(false);
+            BonusWinPopup.parent.gameObject.SetActive(false);
+            BonusWintext.text = "";
+
+        });
+
     }
 
     internal int GetValue()
@@ -70,6 +88,8 @@ public class BonusController : MonoBehaviour
 
         return value;
     }
+
+
 
     internal void PlayWinLooseSound(bool isWin)
     {

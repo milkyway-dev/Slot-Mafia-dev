@@ -10,11 +10,13 @@ using System.Linq;
 using Newtonsoft.Json;
 using Best.SocketIO;
 using Best.SocketIO.Events;
+using Newtonsoft.Json.Linq;
+using System.Runtime.Serialization;
 
 public class SocketIOManager : MonoBehaviour
 {
-    [SerializeField]
-    private SlotBehaviour slotManager;
+    [SerializeField] private SlotBehaviour slotManager;
+    [SerializeField] private UIManager uIManager;
 
     internal GameData initialData = null;
     internal UIData initUIData = null;
@@ -31,9 +33,17 @@ public class SocketIOManager : MonoBehaviour
 
     [SerializeField]
     private string SocketURI;
+    //https://dev.casinoparadize.com
 
+    [SerializeField] private string TestToken;
     protected string gameID = "SL-MAF";
 
+    internal bool isLoading;
+
+    private void Awake()
+    {
+        isLoading = true;
+    }
     private void Start()
     {
         OpenSocket();
@@ -89,7 +99,7 @@ public class SocketIOManager : MonoBehaviour
         {
             return new
             {
-                token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdhdXJhdiIsImRlc2lnbmF0aW9uIjoiY29tcGFueSIsImlhdCI6MTcxODA4MzM3MCwiZXhwIjoxNzE4MTY5NzcwfQ.rJ5Ger1nqwogz5P7POPKRhuiNK6gG1vjsUQhtgKa0WM"
+                token = TestToken
             };
         };
         options.Auth = authFunction;
@@ -147,6 +157,8 @@ public class SocketIOManager : MonoBehaviour
     private void OnDisconnected(string response)
     {
         Debug.Log("Disconnected from the server");
+        uIManager.DisconnectionPopup();
+
     }
 
     private void OnError(string response)
@@ -237,7 +249,7 @@ public class SocketIOManager : MonoBehaviour
         }
 
         slotManager.SetInitialUI();
-
+        isLoading = false;
         Application.ExternalCall("window.parent.postMessage", "OnEnter", "*");
     }
 
@@ -340,6 +352,7 @@ public class SocketIOManager : MonoBehaviour
 public class BetData
 {
     public double currentBet;
+    public double currentLines = 9;
     //public double TotalLines;
 }
 
@@ -375,7 +388,8 @@ public class AbtLogo
 public class GameData
 {
     public List<List<string>> Reel { get; set; }
-    public List<int> Bets { get; set; }
+    public List<List<double>> Lines { get; set; }
+    public List<double> Bets { get; set; }
     public bool canSwitchLines { get; set; }
     public List<int> LinesCount { get; set; }
     public List<int> autoSpin { get; set; }
@@ -426,7 +440,34 @@ public class Paylines
 [Serializable]
 public class Symbol
 {
-    public Multiplier multiplier { get; set; }
+    public int ID { get; set; }
+    public string Name { get; set; }
+    [JsonProperty("multiplier")]
+    public object MultiplierObject { get; set; }
+
+    // This property will hold the properly deserialized list of lists of integers
+    [JsonIgnore]
+    public List<List<int>> Multiplier { get; private set; }
+
+    // Custom deserialization method to handle the conversion
+    [OnDeserialized]
+    internal void OnDeserializedMethod(StreamingContext context)
+    {
+        // Handle the case where multiplier is an object (empty in JSON)
+        if (MultiplierObject is JObject)
+        {
+            Multiplier = new List<List<int>>();
+        }
+        else
+        {
+            // Deserialize normally assuming it's an array of arrays
+            Multiplier = JsonConvert.DeserializeObject<List<List<int>>>(MultiplierObject.ToString());
+        }
+    }
+    public object defaultAmount { get; set; }
+    public object symbolsCount { get; set; }
+    public object increaseValue { get; set; }
+    public int freeSpin { get; set; }
 }
 
 [Serializable]
@@ -450,4 +491,6 @@ public class PlayerData
 {
     public double Balance { get; set; }
     public double haveWon { get; set; }
+    public double currentWining { get; set; }
+
 }
