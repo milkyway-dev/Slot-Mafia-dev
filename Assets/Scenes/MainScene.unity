@@ -3770,8 +3770,7 @@ MonoBehaviour:
   uIManager: {fileID: 377874625}
   bonusdata: []
   _jsManager: {fileID: 500036493}
-  SocketURI: https://dev.casinoparadize.com
-  TestToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OGU3ODRkYWNmNmNiYjRmMjAzOTNmMiIsInVzZXJuYW1lIjoicml0aWsiLCJyb2xlIjoicGxheWVyIiwiaWF0IjoxNzIxMzAzMDMzLCJleHAiOjE3MjEzODk0MzN9.5c2nrZnutm0O2bOdYLu0ItObRYXU56OoZrVK-RUfl6s
+  TestToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YTBhNmJkYzVjODcyYjE2YzM2ZjFkZCIsInVzZXJuYW1lIjoic2F5YW4iLCJyb2xlIjoicGxheWVyIiwiaWF0IjoxNzIxODkxMzg4LCJleHAiOjE3MjE5Nzc3ODh9.4Qr9_3VKAktcdWnfzenxefIHqnuxTqCi0ACYL91fqac
 --- !u!114 &500036493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4338,7 +4337,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 21300000, guid: 3000c9a374ab045059b05d9151f2f8b5, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 3000c9a374ab045059b05d9151f2f8b5, type: 3}
     m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 21300000, guid: e1a82be3538cf4ab1a397f48d99a6b33, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 3000c9a374ab045059b05d9151f2f8b5, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -22335,8 +22334,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 51930704}
-  - {fileID: 1571308677}
   - {fileID: 2046803209}
+  - {fileID: 1571308677}
   - {fileID: 963807278}
   - {fileID: 377874624}
   - {fileID: 500036491}

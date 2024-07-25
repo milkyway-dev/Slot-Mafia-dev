@@ -503,6 +503,12 @@ public class SlotBehaviour : MonoBehaviour
         if (currentBalance < currentTotalBet && !IsFreeSpin)
         {
             CompareBalance();
+            if (IsAutoSpin) {
+                StopAutoSpin();
+                yield return new WaitForSeconds(1f);
+
+            }
+
             yield break;
         }
         ToggleButtonGrp(false);
@@ -560,6 +566,8 @@ public class SlotBehaviour : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.3f);
+        if (audioController) audioController.StopWLAaudio();
+
         CheckPayoutLineBackend(SocketManager.resultData.linesToEmit, SocketManager.resultData.FinalsymbolsToEmit, SocketManager.resultData.jackpot);
         KillAllTweens();
 
@@ -703,7 +711,6 @@ public class SlotBehaviour : MonoBehaviour
                 PayCalculator.DontDestroy.Add(LineId[i]);
                 PayCalculator.GeneratePayoutLinesBackend(LineId[i]);
             }
-
             if (jackpot > 0)
             {
                 for (int i = 0; i < Tempimages.Count; i++)
@@ -734,8 +741,6 @@ public class SlotBehaviour : MonoBehaviour
                 }
             }
         }
-
-
 
     }
 
