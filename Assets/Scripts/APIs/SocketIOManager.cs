@@ -31,9 +31,9 @@ public class SocketIOManager : MonoBehaviour
 
     private SocketManager manager;
 
-    [SerializeField]
-    private string SocketURI;
-    //https://dev.casinoparadize.com
+    //[SerializeField]
+    //private string SocketURI;
+    protected string SocketURI="https://dev.casinoparadize.com";
 
     [SerializeField] private string TestToken;
     protected string gameID = "SL-MAF";
@@ -132,6 +132,27 @@ public class SocketIOManager : MonoBehaviour
         SetupSocketManager(options);
     }
 
+    private void OnSocketState(bool state)
+    {
+        if (state)
+        {
+            Debug.Log("my state is " + state);
+            InitRequest("AUTH");
+        }
+        else
+        {
+
+        }
+    }
+    private void OnSocketError(string data)
+    {
+        Debug.Log("Received error with data: " + data);
+    }
+    private void OnSocketAlert(string data)
+    {
+        Debug.Log("Received alert with data: " + data);
+    }
+
     private void SetupSocketManager(SocketOptions options)
     {
         // Create and setup SocketManager
@@ -142,6 +163,9 @@ public class SocketIOManager : MonoBehaviour
         this.manager.Socket.On<string>(SocketIOEventTypes.Disconnect, OnDisconnected);
         this.manager.Socket.On<string>(SocketIOEventTypes.Error, OnError);
         this.manager.Socket.On<string>("message", OnListenEvent);
+        this.manager.Socket.On<bool>("socketState", OnSocketState);
+        this.manager.Socket.On<string>("internalError", OnSocketError);
+        this.manager.Socket.On<string>("alert", OnSocketAlert);
 
         // Start connecting to the server
         this.manager.Open();
@@ -151,7 +175,7 @@ public class SocketIOManager : MonoBehaviour
     void OnConnected(ConnectResponse resp)
     {
         Debug.Log("Connected!");
-        InitRequest("AUTH");
+        //InitRequest("AUTH");
     }
 
     private void OnDisconnected(string response)
