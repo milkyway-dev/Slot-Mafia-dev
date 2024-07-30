@@ -336,7 +336,7 @@ public class UIManager : MonoBehaviour
     void OnMenuClick()
     {
         isOpen = !isOpen;
-
+        if(audioController)  audioController.PlayButtonAudio();
         if (isOpen)
         {
             if (Menu_button) Menu_button.image.sprite = MenuCloseSprite;
