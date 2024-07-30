@@ -294,6 +294,7 @@ public class SlotBehaviour : MonoBehaviour
 
         currentTotalBet = SocketManager.initialData.Bets[BetCounter] * SocketManager.initialData.Lines.Count;
         if (TotalBet_text) TotalBet_text.text = currentTotalBet.ToString();
+        if (BetPerLine_text) BetPerLine_text.text = SocketManager.initialData.Bets[BetCounter].ToString();
         CompareBalance();
     }
 
@@ -497,6 +498,16 @@ public class SlotBehaviour : MonoBehaviour
         tweenroutine = StartCoroutine(TweenRoutine());
     }
 
+    private void OnApplicationFocus(bool focus)
+    {
+        if(focus)
+        {
+            if(!IsSpinning)
+            {
+                if (audioController) audioController.StopWLAaudio();
+            }
+        }
+    }
     private IEnumerator TweenRoutine()
     {
         IsSpinning = true;
@@ -565,7 +576,7 @@ public class SlotBehaviour : MonoBehaviour
             yield return StopTweening(5, Slot_Transform[i], i);
         }
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         if (audioController) audioController.StopWLAaudio();
 
         CheckPayoutLineBackend(SocketManager.resultData.linesToEmit, SocketManager.resultData.FinalsymbolsToEmit, SocketManager.resultData.jackpot);
@@ -624,7 +635,7 @@ public class SlotBehaviour : MonoBehaviour
             IsSpinning = false;
         }
 
-        if (SocketManager.resultData.freeSpins > 0)
+        if (SocketManager.resultData.freeSpins > 0 && !IsFreeSpin)
         {
             FreeSpins += (int)SocketManager.resultData.freeSpins;
             uiManager.setFreeSpinData(FreeSpins);
