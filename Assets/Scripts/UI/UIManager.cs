@@ -59,7 +59,7 @@ public class UIManager : MonoBehaviour
     [Header("Menu popup")]
     [SerializeField] private Transform Menu_button_grp;
     [SerializeField] private Button Menu_button;
-    [SerializeField] private bool isOpen=false;
+    [SerializeField] private bool isOpen = false;
     [SerializeField] private Sprite MenuOpenSprite;
     [SerializeField] private Sprite MenuCloseSprite;
 
@@ -105,6 +105,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button Close_Button;
     [SerializeField] private GameObject LowBalancePopup_Object;
 
+    [Header("AnotherDevice Popup")]
+    [SerializeField] private Button CloseAD_Button;
+    [SerializeField] private GameObject ADPopup_Object;
+
     private bool isExit = false;
 
 
@@ -128,11 +132,11 @@ public class UIManager : MonoBehaviour
         if (Paytable_button) Paytable_button.onClick.RemoveAllListeners();
         if (Paytable_button) Paytable_button.onClick.AddListener(delegate { OpenPopup(PaytablePopup_Object); });
 
-        if(Left_Arrow) Left_Arrow.onClick.RemoveAllListeners();
-        if(Left_Arrow) Left_Arrow.onClick.AddListener(delegate { slide(-1); });
+        if (Left_Arrow) Left_Arrow.onClick.RemoveAllListeners();
+        if (Left_Arrow) Left_Arrow.onClick.AddListener(delegate { slide(-1); });
 
-        if(Right_Arrow) Right_Arrow.onClick.RemoveAllListeners();
-        if(Right_Arrow) Right_Arrow.onClick.AddListener(delegate { slide(1); });
+        if (Right_Arrow) Right_Arrow.onClick.RemoveAllListeners();
+        if (Right_Arrow) Right_Arrow.onClick.AddListener(delegate { slide(1); });
 
         if (GameExit_Button) GameExit_Button.onClick.RemoveAllListeners();
         if (GameExit_Button) GameExit_Button.onClick.AddListener(delegate { OpenPopup(QuitPopupObject); });
@@ -173,6 +177,9 @@ public class UIManager : MonoBehaviour
         if (Music_Button) Music_Button.onClick.RemoveAllListeners();
         if (Music_Button) Music_Button.onClick.AddListener(ToggleMusic);
 
+        if (CloseAD_Button) CloseAD_Button.onClick.RemoveAllListeners();
+        if (CloseAD_Button) CloseAD_Button.onClick.AddListener(CallOnExitFunction);
+
     }
 
 
@@ -181,14 +188,16 @@ public class UIManager : MonoBehaviour
     {
         StartCoroutine(LoadingTextAnimate());
         float fillAmount = 0.7f;
-        progressbar.DOFillAmount(fillAmount, 3f).SetEase(Ease.Linear).onUpdate = () => {
+        progressbar.DOFillAmount(fillAmount, 3f).SetEase(Ease.Linear).onUpdate = () =>
+        {
 
-            progressbar_text.text = (progressbar.fillAmount*100).ToString("f0")+"%";
+            progressbar_text.text = (progressbar.fillAmount * 100).ToString("f0") + "%";
         };
         yield return new WaitForSecondsRealtime(3f);
         yield return new WaitUntil(() => !socketManager.isLoading);
-        progressbar.DOFillAmount(1, 1f).SetEase(Ease.Linear).onUpdate = () =>{
-            progressbar_text.text = (progressbar.fillAmount*100).ToString("f0")+"%";
+        progressbar.DOFillAmount(1, 1f).SetEase(Ease.Linear).onUpdate = () =>
+        {
+            progressbar_text.text = (progressbar.fillAmount * 100).ToString("f0") + "%";
 
         };
         yield return new WaitForSecondsRealtime(1f);
@@ -300,18 +309,23 @@ public class UIManager : MonoBehaviour
         OpenPopup(LowBalancePopup_Object);
     }
 
+    internal void ADfunction()
+    {
+        OpenPopup(ADPopup_Object);
+    }
+
     private void slide(int i)
     {
         if (audioController) audioController.PlayButtonAudio();
 
-        if (CurrentIndex < paytableList.Length-1 && i>0)
+        if (CurrentIndex < paytableList.Length - 1 && i > 0)
         {
             paytableList[CurrentIndex].SetActive(false);
             paytableList[CurrentIndex + 1].SetActive(true);
-            CurrentIndex ++;
+            CurrentIndex++;
         }
 
-        if (CurrentIndex >= 1 && i<0)
+        if (CurrentIndex >= 1 && i < 0)
         {
             paytableList[CurrentIndex].SetActive(false);
             paytableList[CurrentIndex - 1].SetActive(true);
@@ -331,7 +345,8 @@ public class UIManager : MonoBehaviour
                 Menu_button_grp.GetChild(i).DOLocalMoveY(-130 * (i + 1), 0.1f * (i + 1));
             }
         }
-        else {
+        else
+        {
 
             if (Menu_button) Menu_button.image.sprite = MenuOpenSprite;
 

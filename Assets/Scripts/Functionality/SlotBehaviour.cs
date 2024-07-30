@@ -498,6 +498,16 @@ public class SlotBehaviour : MonoBehaviour
         tweenroutine = StartCoroutine(TweenRoutine());
     }
 
+    private void OnApplicationFocus(bool focus)
+    {
+        if(focus)
+        {
+            if(!IsSpinning)
+            {
+                if (audioController) audioController.StopWLAaudio();
+            }
+        }
+    }
     private IEnumerator TweenRoutine()
     {
         IsSpinning = true;
@@ -625,7 +635,7 @@ public class SlotBehaviour : MonoBehaviour
             IsSpinning = false;
         }
 
-        if (SocketManager.resultData.freeSpins > 0)
+        if (SocketManager.resultData.freeSpins > 0 && !IsFreeSpin)
         {
             FreeSpins += (int)SocketManager.resultData.freeSpins;
             uiManager.setFreeSpinData(FreeSpins);
