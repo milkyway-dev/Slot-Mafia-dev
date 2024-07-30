@@ -242,12 +242,35 @@ public class SocketIOManager : MonoBehaviour
 
     internal void CloseSocket()
     {
-        if (this.manager != null)
+        CloseSocketMesssage("EXIT");
+        DOVirtual.DelayedCall(0.1f, () =>
         {
-            this.manager.Close();
-        }
+            if (this.manager != null)
+            {
+                Debug.Log("Dispose my Socket");
+                this.manager.Close();
+            }
+        });
     }
 
+    private void CloseSocketMesssage(string eventName)
+    {
+        // Construct message data
+
+        // Serialize message data to JSON
+        //string json = JsonUtility.ToJson(message);
+        //Debug.Log(json);
+        // Send the message
+        if (this.manager.Socket != null && this.manager.Socket.IsOpen)
+        {
+            this.manager.Socket.Emit(eventName);
+            //Debug.Log("JSON data sent: " + json);
+        }
+        else
+        {
+            Debug.LogWarning("Socket is not connected.");
+        }
+    }
     private void ParseResponse(string jsonObject)
     {
         Debug.Log(jsonObject);

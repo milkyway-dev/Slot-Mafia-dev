@@ -298,6 +298,8 @@ public class SlotBehaviour : MonoBehaviour
         CompareBalance();
     }
 
+
+
     void ChangeBet(bool inc)
     {
         if (audioController) audioController.PlayButtonAudio();
@@ -529,29 +531,36 @@ public class SlotBehaviour : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
+        if (!IsFreeSpin)
+        {
         double bet = 0;
         double balance = 0;
-        try
-        {
-            bet = double.Parse(TotalBet_text.text);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("Error while conversion " + e.Message);
-        }
+            try
+            {
+                bet = double.Parse(TotalBet_text.text);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Error while conversion " + e.Message);
+            }
 
-        try
-        {
-            balance = double.Parse(Balance_text.text);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("Error while conversion " + e.Message);
-        }
+            try
+            {
+                balance = double.Parse(Balance_text.text);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Error while conversion " + e.Message);
+            }
+            double initAmount = balance;
 
-        balance = balance - bet;
+            balance = balance - bet;
 
-        if (Balance_text) Balance_text.text = balance.ToString();
+            DOTween.To(() => initAmount, (val) => initAmount = val, balance, 0.8f).OnUpdate(() =>
+            {
+                if (Balance_text) Balance_text.text = initAmount.ToString("f2");
+            });
+        }
 
         SocketManager.AccumulateResult(BetCounter);
 
@@ -599,15 +608,15 @@ public class SlotBehaviour : MonoBehaviour
             _bonusManager.GetSuitCaseList(SocketManager.resultData.BonusResult,SocketManager.initialData.Bets[BetCounter]);
 
         }
-        else if (SocketManager.resultData.WinAmout >= bet * 5 && SocketManager.resultData.WinAmout < bet * 10 && SocketManager.resultData.jackpot == 0)
+        else if (SocketManager.resultData.WinAmout >= currentTotalBet * 10 && SocketManager.resultData.WinAmout < currentTotalBet * 15 && SocketManager.resultData.jackpot == 0)
         {
             uiManager.PopulateWin(1, SocketManager.resultData.WinAmout);
         }
-        else if (SocketManager.resultData.WinAmout >= bet * 10 && SocketManager.resultData.WinAmout < bet * 15 && SocketManager.resultData.jackpot == 0)
+        else if (SocketManager.resultData.WinAmout >= currentTotalBet * 15 && SocketManager.resultData.WinAmout < currentTotalBet * 20 && SocketManager.resultData.jackpot == 0)
         {
             uiManager.PopulateWin(2, SocketManager.resultData.WinAmout);
         }
-        else if (SocketManager.resultData.WinAmout >= bet * 15 && SocketManager.resultData.jackpot == 0)
+        else if (SocketManager.resultData.WinAmout >= currentTotalBet * 20 && SocketManager.resultData.jackpot == 0)
         {
             uiManager.PopulateWin(3, SocketManager.resultData.WinAmout);
         }
@@ -639,6 +648,10 @@ public class SlotBehaviour : MonoBehaviour
         {
             FreeSpins += (int)SocketManager.resultData.freeSpins;
             uiManager.setFreeSpinData(FreeSpins);
+            if(IsAutoSpin){
+                StopAutoSpin();
+                yield return new WaitForSeconds(0.1f);
+            }
             yield return new WaitForSeconds(1.0f);
             FreeSpin(FreeSpins);
         }
