@@ -151,7 +151,7 @@ public class SocketIOManager : MonoBehaviour
     private void OnSocketAlert(string data)
     {
         Debug.Log("Received alert with data: " + data);
-        AliveRequest("YES I AM ALIVE");
+        // AliveRequest("YES I AM ALIVE");
 
     }
 
@@ -177,9 +177,15 @@ public class SocketIOManager : MonoBehaviour
     void OnConnected(ConnectResponse resp)
     {
         Debug.Log("Connected!");
+        SendPing();
+
         //InitRequest("AUTH");
     }
 
+    private void SendPing()
+    {
+        InvokeRepeating("AliveRequest", 0f, 3f);
+    }
     private void OnDisconnected(string response)
     {
         Debug.Log("Disconnected from the server");
@@ -211,7 +217,9 @@ public class SocketIOManager : MonoBehaviour
         InitData message = new InitData();
         if (this.manager.Socket != null && this.manager.Socket.IsOpen)
         {
-            this.manager.Socket.Emit(eventName);
+            // this.manager.Socket.Emit(eventName);
+            this.manager.Socket.Emit("YES I AM ALIVE");
+
             Debug.Log("JSON data sent: alive");
         }
         else
