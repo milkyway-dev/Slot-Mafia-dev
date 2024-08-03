@@ -276,15 +276,18 @@ public class UIManager : MonoBehaviour
         {
             if (jackpot)
             {
-                if (jackpot_Object) jackpot_Object.SetActive(true);
+
+                ClosePopup(jackpot_Object);
+                jackpot_Text.text="";
 
             }
             else
             {
-                if (WinPopup_Object) WinPopup_Object.SetActive(false);
+                ClosePopup(WinPopup_Object);
+                Win_Text.text="";
 
             }
-            if (MainPopup_Object) MainPopup_Object.SetActive(false);
+
             slotManager.CheckPopups = false;
         });
     }
@@ -293,6 +296,8 @@ public class UIManager : MonoBehaviour
     {
         if (audioController) audioController.PlayButtonAudio();
         if (Popup) Popup.SetActive(true);
+
+
         if (MainPopup_Object) MainPopup_Object.SetActive(true);
     }
 
@@ -300,7 +305,10 @@ public class UIManager : MonoBehaviour
     {
         if (audioController) audioController.PlayButtonAudio();
         if (Popup) Popup.SetActive(false);
-        if (MainPopup_Object) MainPopup_Object.SetActive(false);
+        if (!DisconnectPopupObject.activeSelf)
+        {
+            if (MainPopup_Object) MainPopup_Object.SetActive(false);
+        }
     }
 
     internal void LowBalPopup()
@@ -336,7 +344,7 @@ public class UIManager : MonoBehaviour
     void OnMenuClick()
     {
         isOpen = !isOpen;
-        if(audioController)  audioController.PlayButtonAudio();
+        if (audioController) audioController.PlayButtonAudio();
         if (isOpen)
         {
             if (Menu_button) Menu_button.image.sprite = MenuCloseSprite;
@@ -414,7 +422,7 @@ public class UIManager : MonoBehaviour
             }
             if (paylines.symbols[i].Name.ToUpper() == "JACKPOT")
             {
-                if (Jackpot_Text) Jackpot_Text.text = "Jackpot: Mega win triggered by 5 Jackpot symbols on a pay line.\nPayout: <color=yellow>" + paylines.symbols[i].defaultAmount +" X";
+                if (Jackpot_Text) Jackpot_Text.text = "Jackpot: Mega win triggered by 5 Jackpot symbols on a pay line.\nPayout: <color=yellow>" + paylines.symbols[i].defaultAmount + " X";
             }
 
         }
