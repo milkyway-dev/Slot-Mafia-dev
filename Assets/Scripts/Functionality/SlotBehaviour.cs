@@ -689,7 +689,7 @@ public class SlotBehaviour : MonoBehaviour
     {
 
         if (SlotStart_Button) SlotStart_Button.interactable = toggle;
-        if (Lines_Button) Lines_Button.interactable = toggle;
+        // if (Lines_Button) Lines_Button.interactable = toggle;
         if (BetPlus_button) BetPlus_button.interactable = toggle;
         if (BetMinus_button) BetMinus_button.interactable = toggle;
         if (MaxBet_Button) MaxBet_Button.interactable = toggle;
