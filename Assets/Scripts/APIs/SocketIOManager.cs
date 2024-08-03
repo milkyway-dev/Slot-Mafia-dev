@@ -189,6 +189,7 @@ public class SocketIOManager : MonoBehaviour
     private void OnDisconnected(string response)
     {
         Debug.Log("Disconnected from the server");
+        StopAllCoroutines();
         uIManager.DisconnectionPopup();
 
     }
