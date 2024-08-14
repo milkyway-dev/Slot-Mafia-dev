@@ -172,6 +172,8 @@ public class SlotBehaviour : MonoBehaviour
 
         if (AutoSpinStop_Button) AutoSpinStop_Button.onClick.RemoveAllListeners();
         if (AutoSpinStop_Button) AutoSpinStop_Button.onClick.AddListener(StopAutoSpin);
+
+        tweenHeight = (12 * IconSizeFactor) - 280;
     }
 
     private void AutoSpin()
@@ -192,6 +194,17 @@ public class SlotBehaviour : MonoBehaviour
         }
     }
 
+    internal void shuffleInitialMatrix()
+    {
+        for (int i = 0; i < Tempimages.Count; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, myImages.Length);
+                Tempimages[i].slotImages[j].sprite = myImages[randomIndex];
+            }
+        }
+    }
 
     private void FreeSpin(int spins)
     {
@@ -279,7 +292,7 @@ public class SlotBehaviour : MonoBehaviour
         if (Lines_text) Lines_text.text = SocketManager.initialData.LinesCount[LineCounter].ToString();
         if (TotalBet_text) TotalBet_text.text = currentTotalBet.ToString();
         if (TotalWin_text) TotalWin_text.text = SocketManager.playerdata.currentWining.ToString();
-        if (Balance_text) Balance_text.text = SocketManager.playerdata.Balance.ToString();
+        if (Balance_text) Balance_text.text = SocketManager.playerdata.Balance.ToString("f2");
         if (BetPerLine_text) BetPerLine_text.text = SocketManager.initialData.Bets[BetCounter].ToString();
         PayCalculator.SetButtonActive(SocketManager.initialData.LinesCount[LineCounter]);
         uiManager.InitialiseUIData(SocketManager.initUIData.AbtLogo.link, SocketManager.initUIData.AbtLogo.logoSprite, SocketManager.initUIData.ToULink, SocketManager.initUIData.PopLink, SocketManager.initUIData.paylines);
@@ -513,6 +526,7 @@ public class SlotBehaviour : MonoBehaviour
     private IEnumerator TweenRoutine()
     {
         IsSpinning = true;
+        uiManager.StopLightAnim();
         if (currentBalance < currentTotalBet && !IsFreeSpin)
         {
             CompareBalance();
@@ -628,7 +642,7 @@ public class SlotBehaviour : MonoBehaviour
 
         if (TotalWin_text) TotalWin_text.text = SocketManager.playerdata.currentWining.ToString();
 
-        if (Balance_text) Balance_text.text = SocketManager.playerdata.Balance.ToString();
+        if (Balance_text) Balance_text.text = SocketManager.playerdata.Balance.ToString("f2");
 
         yield return new WaitUntil(() => !CheckPopups);
 
@@ -728,7 +742,7 @@ public class SlotBehaviour : MonoBehaviour
         if (LineId.Count > 0)
         {
             if (audioController) audioController.PlayWLAudio("win");
-
+            uiManager.StartLightAnim();
 
             for (int i = 0; i < LineId.Count; i++)
             {
