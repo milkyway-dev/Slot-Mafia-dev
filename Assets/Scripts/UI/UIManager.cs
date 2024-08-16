@@ -123,10 +123,10 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(lightanimation());
+        //StartCoroutine(lightanimation());
 
         if (PaytableExit_Button) PaytableExit_Button.onClick.RemoveAllListeners();
-        if (PaytableExit_Button) PaytableExit_Button.onClick.AddListener(delegate { ClosePopup(PaytablePopup_Object); });
+        if (PaytableExit_Button) PaytableExit_Button.onClick.AddListener(delegate { ClosePopup(PaytablePopup_Object); ResetInfoScreens(); });
 
 
         if (Paytable_button) Paytable_button.onClick.RemoveAllListeners();
@@ -341,6 +341,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void ResetInfoScreens()
+    {
+        CurrentIndex = 0;
+        for(int i = 0; i < paytableList.Length; i++)
+        {
+            paytableList[i].SetActive(false);
+        }
+        paytableList[CurrentIndex].SetActive(true);
+    }
+
     void OnMenuClick()
     {
         isOpen = !isOpen;
@@ -446,21 +456,27 @@ public class UIManager : MonoBehaviour
         Application.ExternalCall("window.parent.postMessage", "onExit", "*");
     }
 
-    private IEnumerator lightanimation()
+    private void lightanimation()
     {
-        while (true)
+        if (lightOn.activeSelf)
         {
-            if (lightOn.activeSelf)
-            {
-                lightOn.SetActive(false);
-            }
-            else
-            {
-                lightOn.SetActive(true);
-            }
-
-            yield return new WaitForSeconds(0.1f);
+            lightOn.SetActive(false);
         }
+        else
+        {
+            lightOn.SetActive(true);
+        }
+    }
+
+    internal void StartLightAnim()
+    {
+        InvokeRepeating("lightanimation", 0f, 0.2f);
+    }
+
+    internal void StopLightAnim()
+    {
+        CancelInvoke("lightanimation");
+        lightOn.SetActive(false);
     }
 
     private void ToggleMusic()
