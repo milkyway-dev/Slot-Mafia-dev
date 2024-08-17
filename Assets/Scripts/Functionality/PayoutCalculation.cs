@@ -19,12 +19,9 @@ public class PayoutCalculation : MonoBehaviour
 
     internal int LineCount;
 
-    internal int currrentLineIndex;
+    internal int currrentLineIndex = 9;
 
     internal List<int> DontDestroy = new List<int>();
-
-    [SerializeField] private Button[] left_buttons;
-    [SerializeField] private Button[] right_buttons;
 
     GameObject TempObj = null;
 
@@ -49,26 +46,6 @@ public class PayoutCalculation : MonoBehaviour
         for (int i = 0; i < linecounter; i++)
         {
             Lines_Object[i].SetActive(true);
-        }
-    }
-
-    internal void SetButtonActive(int LineCounter)
-    {
-        currrentLineIndex = LineCounter;
-
-        for (int i = 0; i < LineCounter; i++)
-        {
-            Lines_Object[i].SetActive(true);
-
-            left_buttons[i].interactable = true;
-            right_buttons[i].interactable = true;
-        }
-
-
-        for (int j = LineCounter; j < left_buttons.Length; j++)
-        {
-            left_buttons[j].interactable = false;
-            right_buttons[j].interactable = false;
         }
     }
 
