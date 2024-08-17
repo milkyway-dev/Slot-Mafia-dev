@@ -393,7 +393,6 @@ public class UIManager : MonoBehaviour
 
     internal void setFreeSpinData(int count)
     {
-
         freeSpinBar.DOFillAmount(1, 0.2f).SetEase(Ease.Linear);
         freeSpinCount.text = count.ToString();
     }
