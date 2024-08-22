@@ -141,8 +141,10 @@ public class SlotBehaviour : MonoBehaviour
     private double currentBalance = 0;
     private double currentTotalBet = 0;
     private bool IsFreeSpin;
-    private int maxColCount=18;
+    private int maxColCount = 18;
     private int FreeSpins = 0;
+
+    private Tweener WinTween;
     private void Start()
     {
 
@@ -312,7 +314,8 @@ public class SlotBehaviour : MonoBehaviour
                 BetCounter = SocketManager.initialData.Bets.Count - 1;
 
         }
-        else {
+        else
+        {
 
             BetCounter--;
 
@@ -482,14 +485,16 @@ public class SlotBehaviour : MonoBehaviour
             StopGameAnimation();
         }
         PayCalculator.ResetLines();
+        WinningsAnim(false);
+        TotalWin_text.transform.localScale = Vector3.one;
         tweenroutine = StartCoroutine(TweenRoutine());
     }
 
     private void OnApplicationFocus(bool focus)
     {
-        if(focus)
+        if (focus)
         {
-            if(!IsSpinning)
+            if (!IsSpinning)
             {
                 if (audioController) audioController.StopWLAaudio();
             }
@@ -502,7 +507,8 @@ public class SlotBehaviour : MonoBehaviour
         if (currentBalance < currentTotalBet && !IsFreeSpin)
         {
             CompareBalance();
-            if (IsAutoSpin) {
+            if (IsAutoSpin)
+            {
                 StopAutoSpin();
                 yield return new WaitForSeconds(1f);
 
@@ -519,8 +525,8 @@ public class SlotBehaviour : MonoBehaviour
 
         if (!IsFreeSpin)
         {
-        double bet = 0;
-        double balance = 0;
+            double bet = 0;
+            double balance = 0;
             try
             {
                 bet = double.Parse(TotalBet_text.text);
@@ -552,7 +558,7 @@ public class SlotBehaviour : MonoBehaviour
 
         yield return new WaitUntil(() => SocketManager.isResultdone);
 
-        if (audioController) audioController.PlayWLAudio("spinStop");
+        // if (audioController) audioController.PlayWLAudio("spinStop");
 
         for (int j = 0; j < SocketManager.resultData.ResultReel.Count; j++)
         {
@@ -591,7 +597,7 @@ public class SlotBehaviour : MonoBehaviour
 
         if (SocketManager.resultData.isBonus)
         {
-            _bonusManager.GetSuitCaseList(SocketManager.resultData.BonusResult,SocketManager.initialData.Bets[BetCounter]);
+            _bonusManager.GetSuitCaseList(SocketManager.resultData.BonusResult, SocketManager.initialData.Bets[BetCounter]);
 
         }
         else if (SocketManager.resultData.WinAmout >= currentTotalBet * 10 && SocketManager.resultData.WinAmout < currentTotalBet * 15 && SocketManager.resultData.jackpot == 0)
@@ -612,9 +618,12 @@ public class SlotBehaviour : MonoBehaviour
         }
 
 
-        if (TotalWin_text) TotalWin_text.text = SocketManager.playerdata.currentWining.ToString();
+        if (TotalWin_text) TotalWin_text.text = SocketManager.playerdata.currentWining.ToString("f2");
 
         if (Balance_text) Balance_text.text = SocketManager.playerdata.Balance.ToString("f2");
+
+        if (SocketManager.resultData.WinAmout > 0)
+            WinningsAnim(true);
 
         yield return new WaitUntil(() => !CheckPopups);
 
@@ -663,7 +672,18 @@ public class SlotBehaviour : MonoBehaviour
     //        CheckPopups = false;
     //    }
     //}
-
+    private void WinningsAnim(bool IsStart)
+    {
+        if (IsStart)
+        {
+            WinTween = TotalWin_text.transform.DOScale(new Vector2(0.8f, 0.8f), 1f).SetLoops(-1, LoopType.Yoyo).SetDelay(0);
+        }
+        else
+        {
+            WinTween.Kill();
+            TotalWin_text.transform.localScale = Vector3.one;
+        }
+    }
     private void CompareBalance()
     {
         if (currentBalance < currentTotalBet)
@@ -719,7 +739,7 @@ public class SlotBehaviour : MonoBehaviour
     private void CheckPayoutLineBackend(List<int> LineId, List<string> points_AnimString, double jackpot = 0)
     {
         List<int> points_anim = null;
-        if (LineId.Count > 0)
+        if ((LineId.Count > 0) || (points_AnimString.Count > 0))
         {
             if (audioController) audioController.PlayWLAudio("win");
             uiManager.StartLightAnim();
