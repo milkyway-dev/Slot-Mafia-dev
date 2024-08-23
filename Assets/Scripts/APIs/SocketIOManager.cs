@@ -36,6 +36,7 @@ public class SocketIOManager : MonoBehaviour
 
     protected string SocketURI = null;
     protected string TestSocketURI = "https://dev.casinoparadize.com";
+    // protected string TestSocketURI = "http://localhost:5000";
 
     [SerializeField] private string TestToken;
     protected string gameID = "SL-MAF";
@@ -47,8 +48,8 @@ public class SocketIOManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.unityLogger.logEnabled = false;
-        isLoading = false;
+        // Debug.unityLogger.logEnabled = false;
+        isLoading = true;
     }
 
     private void Start()
@@ -64,7 +65,7 @@ public class SocketIOManager : MonoBehaviour
         var data = JsonUtility.FromJson<AuthTokenData>(jsonData);
         SocketURI = data.socketURL;
         myAuth = data.cookie;
-
+        
         // Proceed with connecting to the server using myAuth and socketURL
     }
 
@@ -542,6 +543,7 @@ public class Symbol
     }
     public object defaultAmount { get; set; }
     public object symbolsCount { get; set; }
+    public object description {get;set;}
     public object increaseValue { get; set; }
     public int freeSpin { get; set; }
 }
