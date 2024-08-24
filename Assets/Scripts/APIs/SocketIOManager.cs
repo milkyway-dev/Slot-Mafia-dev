@@ -43,6 +43,7 @@ public class SocketIOManager : MonoBehaviour
 
     internal bool isLoading;
 
+    internal bool SetInit = false;
     private const int maxReconnectionAttempts = 6;
     private readonly TimeSpan reconnectionDelay = TimeSpan.FromSeconds(10);
 
@@ -65,7 +66,7 @@ public class SocketIOManager : MonoBehaviour
         var data = JsonUtility.FromJson<AuthTokenData>(jsonData);
         SocketURI = data.socketURL;
         myAuth = data.cookie;
-        
+
         // Proceed with connecting to the server using myAuth and socketURL
     }
 
@@ -274,14 +275,22 @@ public class SocketIOManager : MonoBehaviour
         {
             case "InitData":
                 {
-                    Debug.Log(jsonObject);
                     initialData = myData.message.GameData;
                     initUIData = myData.message.UIData;
                     playerdata = myData.message.PlayerData;
                     bonusdata = myData.message.BonusData;
-                    List<string> InitialReels = ConvertListOfListsToStrings(initialData.Reel);
-                    InitialReels = RemoveQuotes(InitialReels);
-                    PopulateSlotSocket(InitialReels);
+                    if (!SetInit)
+                    {
+                        Debug.Log(jsonObject);
+                        List<string> InitialReels = ConvertListOfListsToStrings(initialData.Reel);
+                        InitialReels = RemoveQuotes(InitialReels);
+                        PopulateSlotSocket(InitialReels);
+                        SetInit = true;
+                    }
+                    else
+                    {
+                        RefreshUI();
+                    }
                     break;
                 }
             case "ResultData":
@@ -295,6 +304,11 @@ public class SocketIOManager : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    private void RefreshUI()
+    {
+        uIManager.InitialiseUIData(initUIData.AbtLogo.link, initUIData.AbtLogo.logoSprite, initUIData.ToULink, initUIData.PopLink, initUIData.paylines);
     }
 
     private void PopulateSlotSocket(List<string> slotPop)
@@ -313,7 +327,7 @@ public class SocketIOManager : MonoBehaviour
 
         slotManager.SetInitialUI();
         isLoading = false;
-        Application.ExternalCall("window.parent.postMessage", "OnEnter", "*");
+        // Application.ExternalCall("window.parent.postMessage", "OnEnter", "*");
     }
 
     internal void AccumulateResult(double currBet)
@@ -543,7 +557,7 @@ public class Symbol
     }
     public object defaultAmount { get; set; }
     public object symbolsCount { get; set; }
-    public object description {get;set;}
+    public object description { get; set; }
     public object increaseValue { get; set; }
     public int freeSpin { get; set; }
 }
