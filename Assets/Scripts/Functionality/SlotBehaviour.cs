@@ -277,7 +277,7 @@ public class SlotBehaviour : MonoBehaviour
 
     internal void SetInitialUI()
     {
-        BetCounter = SocketManager.initialData.Bets.Count - 1;
+        BetCounter = 0;
         currentTotalBet = SocketManager.initialData.Bets[BetCounter] * SocketManager.initialData.Lines.Count;
         currentBalance = SocketManager.playerdata.Balance;
         if (TotalBet_text) TotalBet_text.text = currentTotalBet.ToString();
