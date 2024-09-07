@@ -143,10 +143,10 @@ public class UIManager : MonoBehaviour
         if (GameExit_Button) GameExit_Button.onClick.AddListener(delegate { OpenPopup(QuitPopupObject); });
 
         if (no_Button) no_Button.onClick.RemoveAllListeners();
-        if (no_Button) no_Button.onClick.AddListener(delegate { ClosePopup(QuitPopupObject); });
+        if (no_Button) no_Button.onClick.AddListener(delegate { if(!isExit){ClosePopup(QuitPopupObject);} });
 
         if (cancel_Button) cancel_Button.onClick.RemoveAllListeners();
-        if (cancel_Button) cancel_Button.onClick.AddListener(delegate { ClosePopup(QuitPopupObject); });
+        if (cancel_Button) cancel_Button.onClick.AddListener(delegate { if(!isExit){ClosePopup(QuitPopupObject);} });
 
         if (Quit_Button) Quit_Button.onClick.RemoveAllListeners();
         if (Quit_Button) Quit_Button.onClick.AddListener(CallOnExitFunction);
@@ -462,7 +462,7 @@ public class UIManager : MonoBehaviour
     {
         isExit = true;
         slotManager.CallCloseSocket();
-        Application.ExternalCall("window.parent.postMessage", "onExit", "*");
+        // Application.ExternalCall("window.parent.postMessage", "onExit", "*");
     }
 
     private void lightanimation()
