@@ -5,13 +5,13 @@ using DG.Tweening;
 using UnityEngine.UI;
 using System.Linq;
 using TMPro;
-using System;
-using UnityEngine.EventSystems;
-using UnityEngine.Networking;
+using System.Runtime.InteropServices;
 
 public class UIManager : MonoBehaviour
 {
 
+    [DllImport("__Internal")]
+    private static extern void delayHideLoadingScreen();
 
     [Header("Popus UI")]
     [SerializeField]
@@ -118,8 +118,8 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (spalsh_screen) spalsh_screen.SetActive(true);
-        StartCoroutine(LoadingRoutine());
+        // if (spalsh_screen) spalsh_screen.SetActive(true);
+        // StartCoroutine(LoadingRoutine());
     }
 
     private void Start()

@@ -338,6 +338,9 @@ public class SocketIOManager : MonoBehaviour
 
         slotManager.SetInitialUI();
         isLoading = false;
+#if UNITY_WEBGL && !UNITY_EDITOR
+        delayHideLoadingScreen();
+#endif
         // Application.ExternalCall("window.parent.postMessage", "OnEnter", "*");
     }
 
