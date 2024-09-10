@@ -10,9 +10,6 @@ using System.Runtime.InteropServices;
 public class UIManager : MonoBehaviour
 {
 
-    [DllImport("__Internal")]
-    private static extern void delayHideLoadingScreen();
-
     [Header("Popus UI")]
     [SerializeField]
     private GameObject MainPopup_Object;
@@ -110,6 +107,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button CloseAD_Button;
     [SerializeField] private GameObject ADPopup_Object;
 
+    [SerializeField] private Button m_AwakeGameButton;
     private bool isExit = false;
 
 
@@ -120,8 +118,15 @@ public class UIManager : MonoBehaviour
     {
         // if (spalsh_screen) spalsh_screen.SetActive(true);
         // StartCoroutine(LoadingRoutine());
+         SimulateClickByDefault();
+
     }
 
+    private void SimulateClickByDefault()
+    {
+        Debug.Log("Awaken The Game...");
+        m_AwakeGameButton.onClick.Invoke();
+    }
     private void Start()
     {
         //StartCoroutine(lightanimation());
@@ -361,7 +366,7 @@ public class UIManager : MonoBehaviour
             if (Menu_button) Menu_button.image.sprite = MenuCloseSprite;
             for (int i = 0; i < Menu_button_grp.childCount - 1; i++)
             {
-                Menu_button_grp.GetChild(i).DOLocalMoveY(-130 * (i + 1), 0.1f * (i + 1));
+                Menu_button_grp.GetChild(i).DOLocalMoveY(-200 * (i + 1), 0.1f * (i + 1));
             }
         }
         else
