@@ -39,8 +39,8 @@ public class SocketIOManager : MonoBehaviour
      protected string TestSocketURI = "http://localhost:5000";
 
     [SerializeField] private string TestToken;
-    //protected string gameID = "SL-MAF";
-    protected string gameID = "";
+    protected string gameID = "SL-MAF";
+    //protected string gameID = "";
 
     internal bool isLoading;
 
