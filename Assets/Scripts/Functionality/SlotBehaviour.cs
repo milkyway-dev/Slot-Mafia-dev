@@ -160,7 +160,7 @@ public class SlotBehaviour : MonoBehaviour
     {
 
         if (SlotStart_Button) SlotStart_Button.onClick.RemoveAllListeners();
-        if (SlotStart_Button) SlotStart_Button.onClick.AddListener(delegate { StartSlots(); });
+        if (SlotStart_Button) SlotStart_Button.onClick.AddListener(delegate { StartSlots(); if (audioController) audioController.PlaySpinButtonAudio(); });
 
         if (MaxBet_Button) MaxBet_Button.onClick.RemoveAllListeners();
         if (MaxBet_Button) MaxBet_Button.onClick.AddListener(MaxBet);
@@ -172,13 +172,13 @@ public class SlotBehaviour : MonoBehaviour
         if (BetMinus_button) BetMinus_button.onClick.AddListener(delegate { ChangeBet(false); });
 
         if (AutoSpin_Button) AutoSpin_Button.onClick.RemoveAllListeners();
-        if (AutoSpin_Button) AutoSpin_Button.onClick.AddListener(AutoSpin);
+        if (AutoSpin_Button) AutoSpin_Button.onClick.AddListener(delegate{ AutoSpin(); if(audioController) audioController.PlaySpinButtonAudio(); }) ;
 
         if (AutoSpinStop_Button) AutoSpinStop_Button.onClick.RemoveAllListeners();
         if (AutoSpinStop_Button) AutoSpinStop_Button.onClick.AddListener(StopAutoSpin);
 
         if (StopSpin_Button) StopSpin_Button.onClick.RemoveAllListeners();
-        if (StopSpin_Button) StopSpin_Button.onClick.AddListener(() => { StopSpinToggle = true; StopSpin_Button.gameObject.SetActive(false); });
+        if (StopSpin_Button) StopSpin_Button.onClick.AddListener(() => { StopSpinToggle = true; StopSpin_Button.gameObject.SetActive(false); if (audioController) audioController.PlaySpinButtonAudio();});
 
         if (Turbo_Button) Turbo_Button.onClick.RemoveAllListeners();
         if (Turbo_Button) Turbo_Button.onClick.AddListener(TurboToggle);
@@ -189,10 +189,11 @@ public class SlotBehaviour : MonoBehaviour
 
     private void AutoSpin()
     {
-        if (audioController) audioController.PlaySpinButtonAudio();
+        
         if (!IsAutoSpin)
         {
             IsAutoSpin = true;
+           
             if (AutoSpinStop_Button) AutoSpinStop_Button.gameObject.SetActive(true);
             if (AutoSpin_Button) AutoSpin_Button.gameObject.SetActive(false);
 
@@ -235,6 +236,7 @@ public class SlotBehaviour : MonoBehaviour
     }
     void TurboToggle()
     {
+        if (audioController) audioController.PlayButtonAudio();
         if (IsTurboOn)
         {
             IsTurboOn = false;
@@ -507,7 +509,7 @@ public class SlotBehaviour : MonoBehaviour
 
     private void StartSlots(bool autoSpin = false)
     {
-        if (audioController) audioController.PlaySpinButtonAudio();
+       // 
         if (!autoSpin)
         {
             if (AutoSpinRoutine != null)
@@ -622,7 +624,7 @@ public class SlotBehaviour : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
             {
                 yield return new WaitForSeconds(0.1f);
                 if (StopSpinToggle)
