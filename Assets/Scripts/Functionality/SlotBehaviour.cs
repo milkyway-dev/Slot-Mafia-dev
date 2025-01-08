@@ -178,7 +178,7 @@ public class SlotBehaviour : MonoBehaviour
         if (AutoSpinStop_Button) AutoSpinStop_Button.onClick.AddListener(StopAutoSpin);
 
         if (StopSpin_Button) StopSpin_Button.onClick.RemoveAllListeners();
-        if (StopSpin_Button) StopSpin_Button.onClick.AddListener(() => { StopSpinToggle = true; StopSpin_Button.gameObject.SetActive(false); if (audioController) audioController.PlaySpinButtonAudio();});
+        if (StopSpin_Button) StopSpin_Button.onClick.AddListener(() => { StopSpinToggle = true; StopSpin_Button.gameObject.SetActive(false); if (audioController) audioController.PlayButtonAudio(); });
 
         if (Turbo_Button) Turbo_Button.onClick.RemoveAllListeners();
         if (Turbo_Button) Turbo_Button.onClick.AddListener(TurboToggle);
@@ -279,7 +279,7 @@ public class SlotBehaviour : MonoBehaviour
 
     private void StopAutoSpin()
     {
-        if (audioController) audioController.PlaySpinButtonAudio();
+        if (audioController) audioController.PlayButtonAudio();
         if (IsAutoSpin)
         {
             IsAutoSpin = false;
