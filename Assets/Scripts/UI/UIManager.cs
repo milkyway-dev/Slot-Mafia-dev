@@ -259,7 +259,7 @@ public class UIManager : MonoBehaviour
 
     private void StartPopupAnim(double amount, bool jackpot = false)
     {
-        int initAmount = 0;
+        double initAmount = 0;
         if (jackpot)
         {
             if (jackpot_Object) jackpot_Object.SetActive(true);
@@ -272,22 +272,22 @@ public class UIManager : MonoBehaviour
 
         if (MainPopup_Object) MainPopup_Object.SetActive(true);
 
-       TextTween = DOTween.To(() => initAmount, (val) => initAmount = val, (int)amount, 5f).OnUpdate(() =>
+       TextTween = DOTween.To(() => initAmount, (val) => initAmount = val, amount, 3f).OnUpdate(() =>
         {
             if (jackpot)
             {
-                if (jackpot_Text) jackpot_Text.text = initAmount.ToString();
+                if (jackpot_Text) jackpot_Text.text = initAmount.ToString("f3");
 
             }
             else
             {
 
-                if (Win_Text) Win_Text.text = initAmount.ToString();
+                if (Win_Text) Win_Text.text = initAmount.ToString("f3");
 
             }
         });
-        Debug.Log("Dev_test:" + "firest   " + Time.deltaTime);
-        PopupTween = DOVirtual.DelayedCall(6f, () =>
+       
+        PopupTween = DOVirtual.DelayedCall(4f, () =>
         {
             Debug.Log("Dev_test:" + "delayed Called " + Time.deltaTime);
             if (jackpot)
