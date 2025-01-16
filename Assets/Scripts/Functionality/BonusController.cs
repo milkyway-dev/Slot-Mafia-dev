@@ -17,6 +17,8 @@ public class BonusController : MonoBehaviour
     private List<BonusGameSuitCase> BonusCases;
     [SerializeField]
     private AudioController _audioManager;
+    [SerializeField]
+    private GameObject exitBonus;
 
     [SerializeField]
     private List<int> CaseValues;

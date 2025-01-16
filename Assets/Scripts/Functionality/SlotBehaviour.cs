@@ -617,10 +617,11 @@ public class SlotBehaviour : MonoBehaviour
             }
         }
 
-        if (IsTurboOn || IsFreeSpin)                                                      // changes
+        if (IsTurboOn )                                                      // changes
         {
 
             yield return new WaitForSeconds(0.1f);
+            StopSpinToggle = true;
         }
         else
         {
