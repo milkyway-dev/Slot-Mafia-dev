@@ -36,7 +36,7 @@ public class SocketIOManager : MonoBehaviour
 
     protected string SocketURI = null;
   //  protected string TestSocketURI = "https://game-crm-rtp-backend.onrender.com/";
-     protected string TestSocketURI = "http://localhost:5000";
+     protected string TestSocketURI = "http://localhost:5001";
 
     [SerializeField] private string TestToken;
     protected string gameID = "SL-MAF";
